@@ -10,6 +10,7 @@ void invalidInput(std::string input, int flag);
 std::string getExecutablePath(std::string input, int flag);
 void type(std::string input);
 void echo(std::string input);
+void pwd();
 void externalProgram(std::string input);
 
 int main() {
@@ -27,6 +28,7 @@ int main() {
     if (input == "exit 0") return 0;
     else if (input.substr(0, 4) == "type") type(input.substr(5));
     else if (input.substr(0, 4) == "echo") echo(input.substr(5));
+    else if (input.substr(0, 3) == "pwd") pwd();
     else externalProgram(input);
   }
 }
@@ -62,7 +64,7 @@ std::string getExecutablePath(std::string input, int flag) {
 }
 
 void type(std::string input) {
-  if (input == "echo" || input == "exit" || input == "type") {
+  if (input == "echo" || input == "exit" || input == "type" || input == "pwd") {
     std::cout << input << " is a shell builtin\n";
     std::cout << std::unitbuf;
     return;
@@ -79,6 +81,11 @@ void type(std::string input) {
 
 void echo(std::string input) {
   std::cout << input << std::endl;
+  std::cout << std::unitbuf;
+}
+
+void pwd() {
+  std::cout << std::filesystem::current_path().string() << std::endl;
   std::cout << std::unitbuf;
 }
 
