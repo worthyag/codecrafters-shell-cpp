@@ -10,18 +10,20 @@ int main() {
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
 
-  // Uncomment this block to pass the first stage
-  std::cout << "$ ";
-  
-  std::string input;
-  std::getline(std::cin, input);
+  while (true) {
+    // Uncomment this block to pass the first stage
+    std::cout << "$ ";
+    
+    std::string input;
+    std::getline(std::cin, input);
 
-  // Simple solution.
-  // std::cout << input << ": command not found";
-  // std::cout << std::unitbuf;
+    // Simple solution.
+    // std::cout << input << ": command not found";
+    // std::cout << std::unitbuf;
 
-  std::cout << getResponse(input) << std::endl;
-  std::cout << std::unitbuf;
+    std::cout << getResponse(input) << std::endl;
+    std::cout << std::unitbuf;
+  }
 }
 
 bool isValidCommand(std::string input) {
