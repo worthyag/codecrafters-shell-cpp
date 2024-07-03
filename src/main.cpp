@@ -92,9 +92,6 @@ void pwd() {
 }
 
 void cd(std::string input) {
-  // char *inputPtr {input.data()};
-  // system(inputPtr);
-
   std::filesystem::path path {std::filesystem::path(input)};
   try {
     std::filesystem::current_path(path);
