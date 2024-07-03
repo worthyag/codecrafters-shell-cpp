@@ -92,7 +92,16 @@ void pwd() {
 }
 
 void cd(std::string input) {
-  std::filesystem::path path {std::filesystem::path(input)};
+  std::filesystem::path path {};
+
+  if (input[0] == '~') {
+    std::string home {std::getenv("HOME")};
+    path += std::filesystem::path{home};
+    input = input.substr(1);
+  }
+
+  path += std::filesystem::path{input};
+
   try {
     std::filesystem::current_path(path);
   } catch(std::filesystem::filesystem_error) {
