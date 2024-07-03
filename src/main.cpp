@@ -20,7 +20,6 @@ int main() {
   std::cerr << std::unitbuf;
 
   while (true) {
-    // Uncomment this block to pass the first stage
     std::cout << "$ ";
     
     std::string input;
