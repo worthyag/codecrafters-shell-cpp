@@ -11,6 +11,7 @@ std::string getExecutablePath(std::string input, int flag);
 void type(std::string input);
 void echo(std::string input);
 void pwd();
+void cd(std::string input);
 void externalProgram(std::string input);
 
 int main() {
@@ -29,6 +30,7 @@ int main() {
     else if (input.substr(0, 4) == "type") type(input.substr(5));
     else if (input.substr(0, 4) == "echo") echo(input.substr(5));
     else if (input.substr(0, 3) == "pwd") pwd();
+    else if (input.substr(0, 2) == "cd") cd(input.substr(3));
     else externalProgram(input);
   }
 }
@@ -87,6 +89,19 @@ void echo(std::string input) {
 void pwd() {
   std::cout << std::filesystem::current_path().string() << std::endl;
   std::cout << std::unitbuf;
+}
+
+void cd(std::string input) {
+  // char *inputPtr {input.data()};
+  // system(inputPtr);
+
+  std::filesystem::path path {std::filesystem::path(input)};
+  try {
+    std::filesystem::current_path(path);
+  } catch(std::filesystem::filesystem_error) {
+    std::cout << "cd: " << input << ": No such file or directory\n";
+    std::cout << std::unitbuf;
+  }
 }
 
 void externalProgram(std::string input) {
