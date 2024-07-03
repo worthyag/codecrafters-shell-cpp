@@ -1,4 +1,7 @@
 #include <iostream>
+#include <filesystem>
+#include <string>
+#include <sstream>
 
 void invalidInput(std::string input, int flag);
 void type(std::string input);
@@ -33,7 +36,31 @@ void type(std::string input) {
   if (input == "echo" || input == "exit" || input == "type") {
     std::cout << input << " is a shell builtin\n";
     std::cout << std::unitbuf;
-  } else invalidInput(input, 2);
+    return;
+  }
+
+  const char *env {std::getenv("PATH")};
+
+  if (env == nullptr) {
+    invalidInput(input, 2);
+    return;
+  }
+  
+  std::string pathEnv {env};
+  std::stringstream ss {pathEnv};
+  std::string path {};
+
+  while (std::getline(ss, path, ':')) {
+    std::filesystem::path filePath {std::filesystem::path(path) / input};
+
+    if (std::filesystem::exists(filePath) && std::filesystem::is_regular_file(filePath)) {
+      std::cout << input << " is " << filePath.string() << '\n';
+      std::cout << std::unitbuf;
+      return;
+    } 
+  }
+
+  invalidInput(input, 2);  
 }
 
 void echo(std::string input) {
